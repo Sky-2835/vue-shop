@@ -4,7 +4,28 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-  
+  {
+    path:'',
+    redirect:'/login',  
+  },
+  {
+    path:'/login',
+    component: () => import ('../components/login.vue')
+  },
+
+  {
+    path:'/home',
+    component:() => import ('../components/home.vue'),
+    /* beforeEnter(to,from,next){
+      if(!window.sessionStorage.getItem('token')){  //设置没有登录口令，直接访问这个接口页面，跳转到登录页面
+        next('/login')  // 也可以写成 next({path:'/login'})
+      }else{next()}
+    } */
+ },
+  {
+    path:'/helloWorld',
+    component: () => import ('../components/HelloWorld.vue')
+  },
 ]
 
 const router = new VueRouter({
@@ -12,5 +33,14 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to,from,next)=>{          // 当路径为login时执行下一步，没有token时，返回登录界面，登录了继续不影响
+  if(to.path === '/login') return next();
+  if(!window.sessionStorage.getItem('token')){
+    return next('/login')
+  }
+  next()
+})
+
 
 export default router
