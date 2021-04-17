@@ -1,0 +1,58 @@
+{
+  "id": "2452715",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11758222",
+      "name": "右箭头",
+      "font_class": "youjiantou",
+      "unicode": "e751",
+      "unicode_decimal": 59217
+    },
+    {
+      "icon_id": "11758225",
+      "name": "左箭头",
+      "font_class": "zuojiantou",
+      "unicode": "e752",
+      "unicode_decimal": 59218
+    },
+    {
+      "icon_id": "16605996",
+      "name": "商品",
+      "font_class": "shangpin",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "432096",
+      "name": "users",
+      "font_class": "users",
+      "unicode": "e830",
+      "unicode_decimal": 59440
+    },
+    {
+      "icon_id": "2570077",
+      "name": "单据",
+      "font_class": "danju-tianchong",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "3791143",
+      "name": "众创空间-01",
+      "font_class": "zhongchuangkongjian-",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "15726729",
+      "name": "报表",
+      "font_class": "baobiao",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    }
+  ]
+}

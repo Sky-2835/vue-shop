@@ -1,42 +1,56 @@
 <template>
-  <div class="login">
+  <div class="login" style="background:#2b4b6b; height:100%" >
      <div class="header">
      <div class="box1"><img src="../assets/logo.png" alt="error"></div>
     <div class="loginbox">
      <!-- <label><input  type="text" placeholder="请输入用户名" v-model.lazy="input1"></label>
      <label><input  type="password" placeholder="请输入密码" v-model.lazy="input2"></label> -->
      <el-form ref="form1"  label-width="80px" :rules="rules" :model='formlogin'>
-         <el-form-item label="用户名" prop="name">
-         <el-input placeholder="请输入用户名" prefix-icon="el-icon-user-solid" v-model="formlogin.name"> </el-input> 
+         <el-form-item label="用户名" prop="username"><!-- rules表单验证对象里的属性名  必须与input框对应-->
+         <el-input placeholder="请输入用户名" prefix-icon="el-icon-user-solid" v-model="formlogin.username"> </el-input> 
          </el-form-item>
             <el-form-item label="密码" prop="password"> 
-            <el-input placeholder="请输入密码" prefix-icon="el-icon-lock" v-model="formlogin.password" type='password'></el-input>
+            <el-input placeholder="请输入密码" prefix-icon="el-icon-lock" v-model="formlogin.password" show-password></el-input>
             </el-form-item>
     </el-form>
     <el-button type="primary" @click="btnlogin">提交</el-button> <el-button @click="btnclear()">重置</el-button>
     </div>
   </div>
-  <h2>{{'用户名: ' + formlogin.name}}</h2> 
+
+
+  <h2>{{'用户名: ' + formlogin.username}}</h2> 
   <h2>{{'密码: ' + formlogin.password}}</h2> 
+
+
+  <div class="block">
+    <span class="demonstration">这是我的轮播图</span>
+    <el-carousel height="300px" direction="vertical" >
+      <el-carousel-item v-for="(item,index) in imgdata" :key="index">
+        <img :src="item" alt="肿么了">
+      </el-carousel-item> 
+    </el-carousel> 
+    </div>
   </div>
+  
 </template>
 
 <script>
-import {setLoginData} from '../network/Login.js'
+import {aSetLoginData} from 'network/Login.js'
 
 export default {
   data() {
     return {//登陆表单数据绑定对象
       formlogin: {
-          name: "admin",
+          username: "admin",
           password:'123456'
       },
      /*  info:{
         name:'sky',
         age:18,
       }, */
+
       rules:{//表单的验证规则对象  会直接在输入框下面显示文字
-        name: [ //验证用户名是否合法
+        username: [ //验证用户名是否合法
             { required: true, message: '请输入用户名', trigger: 'blur' },
             { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
@@ -44,7 +58,10 @@ export default {
             { required: true, message: '请输入密码', trigger: 'blur' },
             { min:6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ]
-      }
+      },
+      
+      imgdata:[require('../../../vuecli4test/img/1.jpg'),require('../../../vuecli4test/img/2.jpg'),require('../../../vuecli4test/img/4.jpg'),require('../../../vuecli4test/img/4.jpg'),require('../../../vuecli4test/img/5.jpg')],
+     /*  img:'@/assets/logo.png' */
     };
   },
   methods: {
@@ -60,8 +77,8 @@ export default {
           this.$refs.form1.validate( async valid=>{
             /* console.log(valid); */ 
             if(!valid) return;    // 当表单验证通过时，POST上传数据      !!!设置了响应拦截 这里响应失败也只会走.then
-             /*  setLoginData()                                         .then(res=>{console.log(res);}).catch(err=>{console.log(err);}) */
-             const { data : res } = await setLoginData(this.formlogin)   // async后 await会直接拿到后面promise对象的返回值即传入.then里的实参res 传入.catch里的实参err
+             /*  aSetLoginData()                                      .then(res=>{console.log(res);}).catch(err=>{console.log(err);}) */
+             const { data : res } = await aSetLoginData(this.formlogin)   // async后 await会直接拿到后面promise对象的返回值即传入.then里的实参res 传入.catch里的实参err
              //将响应成功传来的数据里的data对象 解构赋值给 res 
               //假入返回 200状态码 则登陆成功
              console.log(res);   
@@ -73,9 +90,7 @@ export default {
                                           message:'登录失败'//VUE3 E-PIUS自动全局挂载. 所以只可在 methods内 直接使用 this.$message
                                                            //VUE3 在其他地方使用还是要与其他一样在element.js导入注册//
                                         });
-
-                                        
-                                        
+                                                                               
                                         }else{           //VUE2则是在element.js导入然后不同的是需要挂载 Vue.prototype.$message = message  
                                         this.$message({                                  //  其他↑是注册 例: Vue.ues(Button)
                                            type:'success',   //VUe2 这样使用this.$message.error('登录失败') 
@@ -85,12 +100,7 @@ export default {
                                               关闭就清除，所以不放在Localstorage内                                                     */
                                          window.sessionStorage.setItem('token',res.data.token)  
                                          console.log(res.data.token);
-                                         this.$router.push({path:'/home',query:{}}) //跳转到home页面
-
-                                         
-
-
-
+                                         this.$router.push({path:'/home',query:{}}) //跳转到home的welcome子页面           
 
              }                   
             }
@@ -114,8 +124,7 @@ export default {
 <style  scoped>
 
 .header {
-  margin-top: 80px;
-  background: #2b4b6b;
+  padding-top: 80px;;
 }
 .box1 {
   position: absolute;
@@ -125,7 +134,7 @@ export default {
   top: -10px;
   transform: translate(-58%, 21%);
 }
-img {
+.box1 img{
   background-color: #eee;
   width: 100%;
   position: absolute;
@@ -192,4 +201,30 @@ img {
   margin-top: 10px;
   transform: translateX(73px);
 }
+.block{
+     position: absolute;
+     width: 400px;
+     left:50%;
+     margin-left: -200px;
+     bottom: 0px;
+   }
+   .el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 150px;
+    margin: 0;
+  }
+  .el-carousel__item:nth-child(2n) {
+     background-color: #99a9bf;
+  }
+
+  .el-carousel__item:nth-child(2n+1) {
+     background-color: #d3dce6;
+  }
+  
+  .block img{
+    width: 100%;
+    height: 100%;
+  }
 </style>

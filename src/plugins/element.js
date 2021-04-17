@@ -1,11 +1,37 @@
 import Vue from 'vue'
-import { Button,Carousel,CarouselItem,Input,Form,FormItem,Message } from 'element-ui'
+import { Button,Carousel,CarouselItem,Input,Form,FormItem,Message,container,
+         header,aside,main,Menu,submenu,MenuItemGroup,MenuItem,breadcrumb,BreadcrumbItem,Card,Row,Col,Table,TableColumn,Switch,
+         Tooltip,pagination,Dialog,MessageBox 
+
+} from 'element-ui'
 
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm 
+
+
 Vue.use(Button)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(container)
+Vue.use(header)
+Vue.use(aside)
+Vue.use(main)
+Vue.use(Menu)
+Vue.use(submenu)
+Vue.use(MenuItemGroup)
+Vue.use(MenuItem)
+Vue.use(breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(Card)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Switch)
+Vue.use(Tooltip)
+Vue.use(pagination)
+Vue.use(Dialog)
 
