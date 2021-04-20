@@ -30,6 +30,10 @@ const routes = [
         path:'/users',
         component: ()=> import('../components/home/users.vue')
       },
+      {
+        path:'/reports',
+        component: () => import ('../components/report/report.vue')
+      },
     ]
 
     /* beforeEnter(to,from,next){
