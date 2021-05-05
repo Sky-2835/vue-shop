@@ -15,7 +15,7 @@
                    <i v-show="isClose"  class="iconfont icon-youjiantou"></i>   -->
               <i :class='{"iconfont icon-zuojiantou":!isClose,"iconfont icon-youjiantou":isClose}'></i>
           </div>
-          <el-menu
+         <el-menu
       background-color="#333744"
       text-color="#fff"
       active-text-color="#409eff"  
@@ -30,9 +30,9 @@
         </template>  <!-- ！！！前面加↓了 / 就直接跳转为$router.push({path:'index值';})设置为子路由时也要加上/   这里如果不加则 如上↑ -->
           <el-menu-item :index="'/'+ itemson.path" v-for="itemson in item.children" :key="itemson.id" @click='Index("/"+ itemson.path)'>
             <template slot="title">
-           <i class="el-icon-menu"></i>
-          <span>{{itemson.authName}}</span>
-        </template>
+            <i class="el-icon-menu"></i>
+            <span>{{itemson.authName}}</span>
+            </template>
         </el-menu-item>
       </el-submenu>
     </el-menu>
@@ -67,7 +67,7 @@ export default {
  },
   methods: {
     logout(){
-      window.sessionStorage.clear(); //清空缓存
+      window.sessionStorage.clear(); //清空缓存       清单个window.sessionStorage.removeItem('index')
       this.$router.push({ path: "/login" });
     },
     

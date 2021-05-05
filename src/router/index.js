@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
 Vue.use(VueRouter)
 
 const routes = [         
@@ -28,11 +29,19 @@ const routes = [
       },
       {
         path:'/users',
-        component: ()=> import('../components/home/users.vue')
+        component: () => import('../components/home/users.vue')
       },
       {
         path:'/reports',
         component: () => import ('../components/report/report.vue')
+      },
+      {
+        path:'/rights',
+        component: () => import('../components/power/rights.vue')
+      },
+      {
+        path:'/roles',
+        component:()=> import('components/power/roles.vue')
       },
     ]
 

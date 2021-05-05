@@ -3,6 +3,7 @@ html, body ,#app{
   height:100%;
   margin: 0px;
   padding: 0px;
+  min-width: 1366px; /* 宽度不够时，内容不会换行 会出现滚动条*/ 
 }
 
 .el-breadcrumb{

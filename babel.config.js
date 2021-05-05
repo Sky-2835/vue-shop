@@ -9,6 +9,7 @@ module.exports = {
         "libraryName": "element-ui",
         "styleLibraryName": "theme-chalk"
       }
-    ]
+    ],
+    "@babel/plugin-syntax-dynamic-import",  //实现路由懒加载的模块
   ]
 }

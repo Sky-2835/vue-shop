@@ -33,7 +33,7 @@
       <!-- 根据date绑定的数组对象v-for遍历 有几个属性值，生成几行  -->
 
         <el-table-column type="index" label="#"></el-table-column>
-        <!-- 变为索引列 -->
+        <!-- 变为索引列 --> 
 
         <el-table-column prop="username" label="姓名"> </el-table-column>
         <!-- 每一 列 对应的列名  prop属性来对应对象中的键名即可填入数据-->
@@ -43,19 +43,19 @@
 
         <el-table-column label="状态">
           <template v-slot:default="scope">
-            <!-- 或者 slot-scope = 'scope'   el自己封装的组件，自带匿名作用域插槽  .row就是 这行 整个数据对象-->
-            <!--  {{scope.row}} -->
+            <!-- 或者 slot-scope = 'scope'   el自己封装的组件，自带匿名作用域插槽  .row就是 这行 整个数据对象 还有column ; $index(每一列的下标值 0开始 类似索引列 )-->
+            <!-- {{scope.row}} -->
             <el-switch  v-model="scope.row.mg_state"  @change="switchChange(scope.row)" > </el-switch>
           </template>
                                   <!-- 状态改变时, .mg_state值是布尔值(自动改变)  触发事件传入整个数据对象 -->
         </el-table-column>
 
-        <el-table-column label="操作" width = '180px'>  <!-- ?最好不要写死 宽度 -->
+        <el-table-column label="操作" width = '180px'>  <!-- ?最好不要写死 宽度  按钮设小了还是不在一行 就设置宽度加宽让他们在一行-->
           <template v-slot:default='scope'>
             <el-button  type="primary"  icon="el-icon-edit"  size="small" @click="showEditDialog(scope.row.id)" ></el-button>
             <el-button  type="danger"  icon="el-icon-delete"  size="small"  @click='removeUserByID(scope.row.id)' ></el-button>
-            <el-tooltip class="item" effect="dark" content="分配角色" placement="top" :enterable="false">
-               <el-button  type="warning"  icon="el-icon-setting"  size="small" ></el-button>
+            <el-tooltip class="item" effect="dark" content="分配角色" placement="top"   :enterable="false">
+               <el-button  type="warning"  icon="el-icon-setting"  size="small"  @click='showRolesDialog(scope.row)'></el-button>
             </el-tooltip> 
           </template>
         </el-table-column>
@@ -77,7 +77,7 @@
     </el-card>
 
     <!-- 添加用户 弹出的的对话框 -->
-    <el-dialog title="添加用户" :visible.sync="isdialogshow"   width="50%"          @close='resetform1()' >
+    <el-dialog title="添加用户" :visible.sync="isdialogshow"   width="30%"          @close='resetform1()' >
                              <!--  是否显示对话框                 宽度               事件，dialog对话框一关闭，执行函数清空表单内容 -->  
       <!-- 添加form表单 -->     
       <el-form :model="addusers" :rules="form1rules" ref="form1" label-width="100px" >
@@ -104,7 +104,7 @@
       </el-dialog>  
 
     <!-- 编辑用户 弹出的对话框 --> 
-    <el-dialog  title="修改用户信息"  :visible.sync="IsEditDialogShow"  width="50%" @close='resetform2()' >
+    <el-dialog  title="修改用户信息"  :visible.sync="IsEditDialogShow"  width="30%" @close='resetform2()' >
     <el-form ref="form2" :model="editForm" label-width="70px" :rules='form2rules'>
        <el-form-item label="用户名">
           <el-input v-model="editForm.username" disabled></el-input>
@@ -122,6 +122,23 @@
      </span>
    </el-dialog> 
     
+    <!-- 分配角色弹出的对话框 -->
+    <el-dialog  title="分配角色"  :visible.sync="IsRolesDialogShow"  width="30%" >
+       <div>
+         <p>当前的用户: {{usersInfo.username}}</p>
+         <p>当前的角色: {{usersInfo.role_name}}</p>
+         <p>请选择角色:
+           <el-select v-model="selectValue" placeholder="请选择">
+             <el-option v-for="item in options" :key="item.id" :label="item.roleName" :value="item.id">
+             </el-option>
+           </el-select>
+         </p>
+      </div>
+       <span slot="footer" class="dialog-footer">
+          <el-button @click="IsRolesDialogShow = false">取 消</el-button>
+          <el-button type="primary" @click="setEditRoles()">确 定</el-button>
+       </span>
+</el-dialog>
 
     <h2>{{ UsersList }}</h2>
     <h2>{{ total }}</h2>
@@ -206,7 +223,15 @@ export default {
         mobile:[ { required: true, message: '请输入手机号', trigger: 'blur' },
                { validator: checkmobile , trigger: ['blur','change'] }],
         
-      }
+      },
+      //是否弹出分配角色对话框
+      IsRolesDialogShow:false,
+      //需要分配角色的用户 的默认信息
+      usersInfo:{},
+      //下拉框参数对象
+      options:{},
+      //下拉框选中的数据
+      selectValue:null,
     };
 
   },
@@ -246,10 +271,10 @@ export default {
       console.log(a);
       const { data: res } = await aUserStatechange(a); //状态改变时，发送请求到数据库改变数据
       if (res.meta.status !== 200) {
+        // 服务器改变失败时，页面的按钮也变回原样
         a.mg_state = !a.mg_state;
         this.$message.error("改变用户状态失败");
       }
-      // 服务器改变失败时，页面的按钮也变回原样
       this.$message.success("改变用户状态成功");
     },
 
@@ -302,7 +327,7 @@ export default {
   async  removeUserByID(id){
          console.log(id);
          // 弹框询问用户是否删除数据  this.$confirm 返回的是promise对象
-      const confirmReslt  =  await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        const confirmReslt  =  await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -318,7 +343,29 @@ export default {
       if(res.meta.status !== 200) this.$message.error('删除用户失败')
       this.$message.success('删除用户成功')
       this.GetUsersList()
-    }
+    },
+     //点击分配角色按钮
+    async showRolesDialog(info){
+          this.IsRolesDialogShow = true;
+          //默认用户信息 实参为scope.row
+          this.usersInfo = info;
+      //请求来 角色数据 供下拉框选择
+      const {data : res} = await this.$axios.get('roles')
+      if(res.meta.status !== 200) return this.$message.error('获取角色信息失败')
+      this.options = res.data
+     },
+    //点确定按钮，提交用户  更改的角色
+    async setEditRoles(){
+        if(!this.selectValue) return this.$message.error('请选择分配的角色')
+        // 从默认用户信息 ↑实参为scope.row 拿到用户id , selectValue为下拉框选中项(角色id)       
+        const {data : res} = await this.$axios.put(`users/${this.usersInfo.id}/role`,{rid:this.selectValue}).catch(err=>err) 
+        if(res.meta.status !==200) return this.$message.error('分配角色失败')
+        this.$message.success('更新角色成功')
+        this.GetUsersList()
+        // 把此数据清空，免得下拉框默认选择为此数据
+        this.selectValue = null;
+        this.IsRolesDialogShow = false;
+     }, 
   },
 };
 </script>
