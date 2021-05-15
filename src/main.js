@@ -8,8 +8,10 @@ import axios from 'axios'
 // 导入nprogress包相应的js css
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
-// 导入自己封装的面包屑导航
+// 导入自己封装的面包屑导航组件
 import Breadcrumb from './components/content/Breadcrumb.vue'
+// 导入vue-table-with-tree-grid组件
+import tableTree from 'vue-table-with-tree-grid'
 
 
 
@@ -31,6 +33,7 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
 Vue.component('bc', Breadcrumb)
+Vue.component('table-Tree', tableTree)
 
 
 

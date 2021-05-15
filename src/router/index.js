@@ -43,6 +43,10 @@ const routes = [
         path:'/roles',
         component:()=> import('components/power/roles.vue')
       },
+      {
+        path:'/categories',
+        component: ()=> import('../components/goods/cate.vue')
+      },
     ]
 
     /* beforeEnter(to,from,next){
