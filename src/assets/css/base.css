@@ -25,3 +25,7 @@ html, body ,#app{
 .el-cascader-panel{   /* 级联选择器 下拉框高度 */
   height: 300px;
 }
+
+.el-alert__icon{    /* alert 图标大小 */
+  transform: scale(1.5);
+}

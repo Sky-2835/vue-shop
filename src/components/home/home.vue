@@ -16,6 +16,7 @@
               <i :class='{"iconfont icon-zuojiantou":!isClose,"iconfont icon-youjiantou":isClose}'></i>
           </div>
          <el-menu
+      ref="elMenu"
       background-color="#333744"
       text-color="#fff"
       active-text-color="#409eff"  
@@ -63,8 +64,11 @@ export default {
 
   created(){
     this.getAsidedata();
-    this.active = window.sessionStorage.getItem('index'); 
- },
+    /*  this.active = window.sessionStorage.getItem('index');  */
+  },
+  mounted(){
+  
+  },
   methods: {
     logout(){
       window.sessionStorage.clear(); //清空缓存       清单个window.sessionStorage.removeItem('index')
@@ -85,7 +89,8 @@ export default {
       window.sessionStorage.setItem('index',a)
       this.active =  a
     },
- }
+ },
+ 
 }
 </script>
 

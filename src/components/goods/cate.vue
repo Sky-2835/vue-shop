@@ -204,6 +204,10 @@ export default {
     // 级联选择器 选中项改变则触发事件的回调函数(默认传参 新的选中项)
      ParentKeysChange(a){ //a就是v-model绑定的数组selectedParentKeys
                            //所以能用a或者是this.selectedParentKeys
+        // !!! 这两者是不同的数组 指向同一地址  属性改变相互影响 但重新赋值就个管个不影响                  
+                          
+
+
 
          /* if(this.selectedParentKeys[1]){
           this.cateData.cat_pid = this.selectedParentKeys[1];
