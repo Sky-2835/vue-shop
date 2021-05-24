@@ -165,7 +165,7 @@ export default {
       }
       cb(new Error('请输入正确的邮箱'))
     }
-    //校验手机号规则 !!! 都是放在 return 外面的额
+    //校验手机号规则 !!! 都是放在 return 外面的额  注意必须执行 回调函数 callback(第三个实参)
     var checkmobile = (rule,value,cd) =>{
      // 验证手机号的正则表达式
      const regmobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57]|)[0-9]{8}$/

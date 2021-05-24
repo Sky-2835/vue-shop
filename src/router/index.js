@@ -51,6 +51,19 @@ const routes = [
         path:'/params',
         component: ()=> import('../components/goods/params.vue')
       },
+      {
+        path:"/goods",
+        component: () => import('../components/goods/list.vue') 
+      },
+      {
+        path:'/goods/add',
+        component: () => import('../components/goods/add.vue')
+      },
+      {
+        path:"/goods/edit",
+        component:()=> import('../components/goods/edit.vue')
+      },
+      
     ]
 
     /* beforeEnter(to,from,next){
@@ -71,7 +84,7 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to,from,next)=>{          // 当路径为login时执行下一步，没有token时，返回登录界面，登录了继续不影响
+router.beforeEach((to,from,next)=>{          // 当路径为login时执行下一步; 没有token时，返回登录界面; 登录了继续不影响
   if(to.path === '/login') return next();
   if(!window.sessionStorage.getItem('token')){
     return next('/login')                    // next({path:'/login'})

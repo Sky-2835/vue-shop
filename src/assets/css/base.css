@@ -14,6 +14,7 @@ html, body ,#app{
 .el-card{         /* 卡片 */
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
 }
+
 .el-table{        /* 表格 */
   margin-top: 15px;
 }
@@ -28,4 +29,20 @@ html, body ,#app{
 
 .el-alert__icon{    /* alert 图标大小 */
   transform: scale(1.5);
+}
+
+.el-steps{           /* 步骤条 */ 
+  margin: 15px 0;
+}
+
+.el-step__title{    /* 步骤条 文字大小 */
+  font-size: 16px !important ;
+}
+
+.el-upload-list--picture{  /* 上传列表(图片)  宽度 */
+  width:80%
+}
+
+.ql-editor{              /* 富文本编辑器 编辑框高度 */
+  min-height: 300px;
 }
