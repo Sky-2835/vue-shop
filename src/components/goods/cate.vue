@@ -27,7 +27,7 @@
          <!-- 操作 列 --> 
          <template #edit='scope'>
            <el-button type="primary" icon="el-icon-edit" size="small" @click="editCate(scope.row.cat_id)">编辑</el-button>
-           <el-button type="danger" icon="el-icon-delete" size="small">删除</el-button>
+           <el-button type="danger" icon="el-icon-delete" size="small" @click="removeCate(scope.row.cat_id)">删除</el-button>
          </template>
       </table-Tree> 
       
@@ -74,7 +74,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="isEditCateDialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="isEditCateDialogShow = false">确 定</el-button>
+        <el-button type="primary" @click="addEdit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -152,7 +152,8 @@ export default {
         postConfig:{},  //  这里直接用上面写的cateDate对象(我写的一样的)
         //是否显示编辑弹出框
         isEditCateDialogShow : false,
-        //编辑 Form表单 数据 对象
+
+        //编辑分类 Form表单 数据 对象
         editFormData:{}
     }
   },
@@ -245,10 +246,39 @@ export default {
         this.cateData.cat_level = null;
         this.cateData.cat_pid = null;
       },
+
     // 点击编辑按钮
-     editCate(id){
+ async editCate(id){
         this.isEditCateDialogShow = true;
+     const {data : res } = await this.$axios.get(`categories/${id}`)
+        if(res.meta.status !== 200) return this.$message.error('获取数据失败')
+        this.editFormData = res.data 
+     },
+
+     //点击删除按钮
+ async removeCate(id){
+    const confirmInfo = await this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).catch(err=>err)
+        if(confirmInfo !== 'confirm') return this.$message.info('已取消删除')
+     const {data : res} = await this.$axios.delete(`categories/${id}`)   
+      if(res.meta.status !== 200) return this.$message.error('删除失败')
+      this.$message.success("删除成功")
+      this.getCateList()
+     },
+
+     // 确定编辑按钮
+  async addEdit(){
+      const {data : res } = await this.$axios.put(`categories/${this.editFormData.cat_id}`,{cat_name:this.editFormData.cat_name})
+      if(res.meta.status !== 200) return this.$message.error('更新失败')
+      console.log(this.editFormData.cat_name);
+      this.$message.success("更新成功")
+      this.getCateList()
+      this.isEditCateDialogShow = false
      }
+    
   },
  }
 </script>
