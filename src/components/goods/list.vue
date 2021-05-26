@@ -97,7 +97,8 @@ export default {
     this.tableData = res.data.goods
     this.total = res.data.total
     },
-
+    
+    /* 设置了 input事件  @input="getAllGoogsData  其实就可以不用设置这个事件了  */
     //清空搜索框clear事件 回调函数 也可直接@clear=getAllGoogsData(),因为点击了×触发事件时，先会将输入框的值清空。所以效果一样
     ClearInput(){
       this.params.query='';

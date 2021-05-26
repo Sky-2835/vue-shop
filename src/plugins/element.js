@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { Button,Carousel,CarouselItem,Input,Form,FormItem,Message,container,
          header,aside,main,Menu,submenu,MenuItemGroup,MenuItem,breadcrumb,BreadcrumbItem,Card,Row,Col,Table,TableColumn,Switch,
          Tooltip,pagination,Dialog,MessageBox,Tag,Tree,Select,Option,Cascader,Alert,Tabs,TabPane,Steps,Step,Checkbox,CheckboxGroup,
-         Upload
+         Upload,Timeline,TimelineItem
 
 } from 'element-ui'
 
@@ -48,4 +48,6 @@ Vue.use(Step)
 Vue.use(CheckboxGroup)
 Vue.use(Checkbox)
 Vue.use(Upload)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 

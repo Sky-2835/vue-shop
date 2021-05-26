@@ -63,7 +63,10 @@ const routes = [
         path:"/goods/edit",
         component:()=> import('../components/goods/edit.vue')
       },
-      
+      {
+        path:'/orders',
+        component: () => import('../components/orders/order.vue')
+      },
     ]
 
     /* beforeEnter(to,from,next){
